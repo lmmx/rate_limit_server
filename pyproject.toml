@@ -1,0 +1,22 @@
+[project]
+name = "rate_limit_server"
+version = "0.1.0"
+description = "Locally hosted server with rate limiting to test as a mock API"
+authors = [
+    {name = "Louis Maddox", email = "louismmx@gmail.com"},
+]
+dependencies = [
+    "flask>=3.0.3",
+    "flask-limiter>=3.7.0",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
