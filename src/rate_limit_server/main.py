@@ -1,20 +1,27 @@
-from flask import Flask
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from fastapi import FastAPI, Request
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
-app = Flask(__name__)
-limiter = Limiter(
-    app,
-    key_func=get_remote_address,  # Uses the remote address for rate limiting
-    default_limits=["5 per minute"],  # Limit: 5 requests per minute
-)
-
-
-@app.route("/data")
-@limiter.limit("3 per minute")  # Custom limit for this endpoint
-def index():
-    return "This is a rate-limited response."
+limiter = Limiter(key_func=get_remote_address)
+app = FastAPI()
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.get("/api/resource1")
+@limiter.limit("4/2 seconds")
+async def read_resource1(request: Request):
+    return {"message": "This is resource 1"}
+
+
+@app.get("/api/resource2")
+@limiter.limit("5/minute")
+async def read_resource2(request: Request):
+    return {"message": "This is resource 2"}
+
+
+def run_app():
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=8000)

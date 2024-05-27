@@ -10,12 +10,15 @@ authors = [
   {name = "Louis Maddox", email = "louismmx@gmail.com"}
 ]
 dependencies = [
-  "flask>=3.0.3",
-  "flask-limiter>=3.7.0"
+    "fastapi>=0.111.0",
+    "slowapi>=0.1.9",
 ]
 requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
+
+[project.scripts]
+ratelim-server = "rate_limit_server.main:run_app"
 
 [tool.pdm]
 distribution = true
