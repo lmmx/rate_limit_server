@@ -10,8 +10,8 @@ authors = [
   {name = "Louis Maddox", email = "louismmx@gmail.com"}
 ]
 dependencies = [
-    "fastapi>=0.111.0",
-    "slowapi>=0.1.9",
+  "fastapi>=0.111.0",
+  "slowapi>=0.1.9"
 ]
 requires-python = ">=3.12"
 readme = "README.md"
